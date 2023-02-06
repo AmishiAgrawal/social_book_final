@@ -1,0 +1,13 @@
+<form action="ulogin" method="post">
+    {% csrf_token %}
+USERNAME<input type="text" name="uname" /><br>
+PASSWORD<input type="password" name="pwd" /><br>
+<input type="submit" value="LOGIN" />
+</form>
+{% if messages %}
+   <script>
+    {% for message in messages %}
+        alert("{{ message }}");
+    {% endfor %}
+   </script>
+{% endif %}
