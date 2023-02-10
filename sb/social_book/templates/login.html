@@ -40,12 +40,11 @@
 			</div>
 			<div class="login-menu">
 				<ul>
-					<li><a href="/register">Register</a></li>
+					<li><a href="/">Register</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	{% include 'messages.html' %}
 	<div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
 		<div class="container">
 			<div class="row align-items-center">
@@ -57,8 +56,9 @@
                         <div class="login-title">
                             <h2 class="text-center text-primary">Login To DeskApp</h2>
 						</div>
-						<form action="/login/" method="post">
-                            {% csrf_token %}
+						{% include 'messages.html' %}
+						<form method="post" action='/login/'>
+                            {%csrf_token%}
                             <div class="select-role">
 								<div class="btn-group btn-group-toggle" data-toggle="buttons">
 									<label class="btn active">
@@ -78,7 +78,7 @@
 							<div class="input-group custom">
 
                                 <input type="text" name="uname" class="form-control form-control-lg" placeholder="Username" /><br>
-                               
+                            
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
@@ -110,11 +110,11 @@
 											use code for form submit
 											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 										-->
-										<button class="btn btn-primary btn-lg btn-block" type='submit'>Sign In</button>
+										<button class="btn btn-primary btn-lg btn-block" type='submit' >Sign In</button>
 									</div>
 									<div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
 									<div class="input-group mb-0">
-										<a class="btn btn-outline-primary btn-lg btn-block" href="/register">Register To Create Account</a>
+										<a class="btn btn-outline-primary btn-lg btn-block" href="/">Register To Create Account</a>
 									</div>
 								</div> 
 							</div>

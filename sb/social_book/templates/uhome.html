@@ -1,6 +1,6 @@
 <h1>welcome to uhome</h1>
 {%if user.is_authenticated%}
-{{user.first_name}}
+<h1>{{user.username}}</h1>
 {%else%}
 no user login
 {%endif%}
