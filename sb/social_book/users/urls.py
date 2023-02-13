@@ -9,5 +9,8 @@ urlpatterns = [
     path('authorsandsellers/',views.authorsandsellers,name='aanss'),
     path('books/',views.books,name='books'),
     path('add_books/',views.add_books,name='add_books'),
+    path('df/',views.df,name='dataframe'),
+    path('sqlengine/',views.sqlengine,name='sqlengine'),
+
     
 ]

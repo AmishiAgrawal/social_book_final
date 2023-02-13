@@ -39,16 +39,16 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     email = models.EmailField("email address", unique=True)
-    username = models.CharField(max_length=50,unique=True)
-    password = models.CharField(max_length=50)
+    username = models.CharField(max_length=250,unique=True)
+    password = models.CharField(max_length=250)
 
     fullname = models.CharField(max_length=100,null=True,blank=True)
     city = models.CharField(max_length=100 , default='',null=True,blank=True)
     state = models.CharField(max_length=500, default='',null=True,blank=True)
     ccnumber = models.CharField(null=True,blank=True,max_length=30)
     cvc = models.IntegerField(null=True,blank=True)
-    gender = models.CharField(max_length=50,null=True,blank=True)
-    cctype = models.CharField(max_length=50,null=True,blank=True)
+    gender = models.CharField(max_length=250,null=True,blank=True)
+    cctype = models.CharField(max_length=250,null=True,blank=True)
     expdate = models.CharField(null=True,blank=True,max_length=10)
    
     address = models.CharField(max_length=100,default="India")
@@ -70,13 +70,13 @@ class CustomUser(AbstractUser):
 class Uploaded_Files(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
-    category = models.CharField(max_length=50)
-    desc = models.TextField(max_length=1500)
+    category = models.CharField(max_length=250)
+    desc = models.TextField(max_length=1500,default="")
     visibility = models.BooleanField(default=True)
     price = models.IntegerField(default='1000')
     publish_year = models.CharField(default=' ',max_length=10)
-    cover = models.ImageField(upload_to='media/covers/')
-    pdf = models.FileField(upload_to='media/pdfs/')
+    cover = models.ImageField(upload_to='covers')
+    pdf = models.FileField(upload_to='pdfs')
 
     def __str__(self):
         return self.title

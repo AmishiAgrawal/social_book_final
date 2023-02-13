@@ -7,21 +7,17 @@ from django.contrib import auth
 from .models import CustomUser, Uploaded_Files
 import datetime
 from django.contrib.auth import authenticate
-
-
-
-# User = settings.AUTH_USER_MODEL
-# import social_book.users.models
-# AUTH_USER_MODEL = 'users.CustomUser'
+import pandas as pd
+import numpy as np
+from sqlalchemy import create_engine
+from sqlalchemy.sql import text
 
 def home(request):
     return render(request,'index2.html')
 # Create your views here.
 def register(request):
     # print(request.POST)
-    if request.method=='POST':
-        print("Simran")
-        
+    if request.method=='POST':        
         email=request.POST.get('email')
         username=request.POST.get('username')
         password=request.POST.get('password')
@@ -61,26 +57,7 @@ def register(request):
             return render(request,'register.html')
     else:
         return render(request,'register.html')
-    # return HttpResponse('register')
-
-        # User = get_user_model()
-    #     if pwd==cpwd:
-    #         if User.objects.filter(username=username).exists():
-    #             messages.info(request, 'Email is exist ')
-    #             return render(request,'register.html')
-    #         else:
-    #             user = User.objects.create(username=username,pwd=pwd, email=email)
-    #             user.set_password(pwd)
-    #             user.save()
-    #             messages.success(request,'sucessfully registered')
-    #             print("success")
-    #             return render(request,'login.html')
-    #     else:
-    #         messages.info(request, 'Both passwords are not matching')
-    #         return render(request,'register.html')
-    # else:
-    #     print("no post method")
-    #     return render(request, 'register.html') 
+ 
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
@@ -116,7 +93,9 @@ def authorsandsellers(request):
     return render(request,'authandsellers.html',{'ob': ob})
 
 def books(request):
-    return render(request,'uploadbooks.html')
+    mybooks = Uploaded_Files.objects.all()
+    print(mybooks)
+    return render(request,'uploadbooks.html',{'mybooks':mybooks})
 
 def add_books(request):
     if request.method == "POST":
@@ -125,13 +104,56 @@ def add_books(request):
         category = request.POST.get('category')
         cover = request.POST.get('cover')
         desc = request.POST.get('desc')
-        visibility = request.POST.get('visibility')
+        # visibility = request.POST.get('visibility')
+        visibility = True
         pdf = request.POST.get('pdf')
         price = request.POST.get('price')
-        publish_year = request.POST.get('publish_year')
+        publish_year = request.POST.get('year')
         book = Uploaded_Files(title=title,author=author,category=category,cover=cover,pdf=pdf,publish_year=publish_year,visibility=visibility,desc=desc,price=price)
         book.save()
         messages.success(request,'Your Book has been added successfully!!!!')
         # Create a form in addbook.html see if it saves in db display the books that user uploaded
 
     return render(request,'addbook.html')
+
+def sqlengine(request):
+    name = 'mydb_1'
+    user = 'Amishi_Agrawal'
+    password = 'amishi777'
+    host = 'database-1.c1ttqa9i87aq.ap-south-1.rds.amazonaws.com'
+    port = '5432'
+    url = (f'postgresql://{user}:{password}@{host}:{port}/{name}')
+    engine = create_engine(url)
+    con = engine.connect()
+    print(con)
+    # s1 = 'SELECT * FROM CustomUser'
+    rs = con.execute(text('SELECT * FROM users_uploaded_files WHERE users_uploaded_files.price > 50'))
+    for row in rs:
+        print(row)
+  
+    return HttpResponse('Done')
+
+
+
+def df(request):
+    # creating dataframe of size 10 * 3
+    data = [['tom',78,18],['raj',67,17],['roy',98,16],['tim',44,18],['riya',72,18],['harsh',68,18],['sia',48,17],['avni',97,18],['vivek',56,16],['ruma',53,18],]
+    df = pd.DataFrame(data, columns=['Name','Marks','Age'])
+    print(df)
+
+    # Filtering dataframe based on values greater than some value
+    print(df[df.Marks > 70])
+
+    # Filtering dataframe with 2 columns
+    print(df[(df.Marks > 70) & (df.Age > 17)])
+     
+    # replace values within dataframe and print
+    print(df.replace(to_replace="tom",
+           value="timothy"))
+    
+    # appending two dataframes with same number of columns
+    data = [['lily',68,17],['harry',76,18],['ron',56,16],['ginny',56,18],]
+    df2 = pd.DataFrame(data, columns=['Name','Marks','Age'])
+    print(df.append(df2, ignore_index=True))
+    # print(df)
+    return HttpResponse(df)
