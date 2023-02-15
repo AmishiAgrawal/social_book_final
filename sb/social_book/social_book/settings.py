@@ -42,24 +42,35 @@ INSTALLED_APPS = [
     'users',
     'rest_framework',
     'rest_framework.authtoken',
-    # 'djoser'
+
 ]
 
 #configure DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+
+        'rest_framework.authentication.TokenAuthentication',
+# >>>>>>> 059b14f6adfb930dd7f41d5610fc13d3d0e5f9fe
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
-
+#
+# <<<<<<< HEAD
 # # configure Djoser
 # DJOSER = {
 #     "USER_ID_FIELD": "username"
 # }
+# =======
+# # configure Djoser
+# DJOSER = {
+#     "USER_ID_FIELD": "username"
+# }
+# >>>>>>> 059b14f6adfb930dd7f41d5610fc13d3d0e5f9fe
 
 
 

@@ -289,12 +289,12 @@ class RegisterUser(APIView):
 def token_mid(request):
     if request.method == 'POST':
         token = request.POST.get('user_token')
-
+        print(token)
         headers = {
-        "Authorization": "Token " + token
+        "Authorization": "token " + token
         }
 
-        response = request.get('http://127.0.0.1:8000/book_api/', headers=headers)
+        response = requests.get('http://127.0.0.1:8000/book_api/', headers=headers)
         print(response)
         return response
         # requests.get('http://127.0.0.1:8000/book_api/', headers=headers)

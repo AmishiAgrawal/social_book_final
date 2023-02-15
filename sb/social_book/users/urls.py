@@ -3,8 +3,7 @@ from .import views
 # from .views import RegisterView,LoginView
 from .views import BookAPI,RegisterUser
 urlpatterns = [
-    # path('home/',views.home,name='home'),
-    # path('post_book/',views.post_book,name='post_book'),
+    path('home',views.home,name='home'),
     path('',views.register,name='register'),
     # path('',RegisterUser.as_view(),name='register'),
     path('login/',views.login,name='login'),
@@ -16,9 +15,9 @@ urlpatterns = [
     path('sqlengine/',views.sqlengine,name='sqlengine'),
     
     path('book_api/',BookAPI.as_view()),
-    # path('token_mid/',views.token_mid),
     path('api/register/',RegisterUser.as_view()),
     # path('api/login/',LoginView.as_view()),
+
 
     
 ]

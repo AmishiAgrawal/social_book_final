@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib import auth
 from .models import CustomUser, Uploaded_Files
 import datetime
+# <<<<<<< HEAD
 import pandas as pd
 # import numpy as np
 from sqlalchemy import create_engine
@@ -25,6 +26,16 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 
 
+# =======
+from django.contrib.auth import authenticate
+import pandas as pd
+import numpy as np
+from sqlalchemy import create_engine
+from sqlalchemy.sql import text
+
+def home(request):
+    return render(request,'index2.html')
+# >>>>>>> 059b14f6adfb930dd7f41d5610fc13d3d0e5f9fe
 # Create your views here.
 def register(request):
     # print(request.POST)
@@ -66,7 +77,7 @@ def register(request):
 
             
             subject = 'welcome to our website'
-            message = f'Hi {user.username}, thank you for registering.'
+            message = f'Hi {user.username}, thank you for registering on our website.We hope you\'re having a nice day.\nThankyou!'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             send_mail( subject, message, email_from, recipient_list )
@@ -80,9 +91,14 @@ def register(request):
     else:
         return render(request,'register.html')
  
-# from django.views.decorators.csrf import csrf_exempt
 
-# @csrf_exempt
+# # from django.views.decorators.csrf import csrf_exempt
+
+# # @csrf_exempt
+
+
+
+
 def login(request):
     if request.method=='POST':
         
@@ -141,6 +157,9 @@ def add_books(request):
     else:
         return render(request,'uploadbooks.html')
 
+    return render(request,'addbook.html')
+
+
 def sqlengine(request):
     name = 'mydb_1'
     user = 'Amishi_Agrawal'
@@ -171,8 +190,6 @@ def sqlengine(request):
 #     # #Executing an MYSQL function using the execute() method
 #     cursor.execute("select version()")
 
-
-
 def df(request):
     # creating dataframe of size 10 * 3
     data = [['tom',78,18],['raj',67,17],['roy',98,16],['tim',44,18],['riya',72,18],['harsh',68,18],['sia',48,17],['avni',97,18],['vivek',56,16],['ruma',53,18],]
@@ -186,16 +203,22 @@ def df(request):
     print(df[(df.Marks > 70) & (df.Age > 17)])
      
     # replace values within dataframe and print
+# <<<<<<< HEAD
     df.at[0,'Name'] = 'timothy'
     print(df)
     # print(df.replace(to_replace="tom",
     #        value="timothy"))
+# =======
+    print(df.replace(to_replace="tom",
+           value="timothy"))
+# >>>>>>> 059b14f6adfb930dd7f41d5610fc13d3d0e5f9fe
     
     # appending two dataframes with same number of columns
     data = [['lily',68,17],['harry',76,18],['ron',56,16],['ginny',56,18],]
     df2 = pd.DataFrame(data, columns=['Name','Marks','Age'])
     print(df.append(df2, ignore_index=True))
     # print(df)
+# <<<<<<< HEAD
     return HttpResponse(df)
 
 
@@ -254,3 +277,6 @@ class BookAPI(APIView):
 #     serializer.save()
 
 #     return Response({'status':200,'data':data,'message':'Your data has been saved'})
+# =======
+    # return HttpResponse(df)
+# >>>>>>> 059b14f6adfb930dd7f41d5610fc13d3d0e5f9fe
