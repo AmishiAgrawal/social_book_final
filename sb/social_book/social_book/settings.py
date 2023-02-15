@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,8 +38,31 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # added
     'users',
+    'rest_framework',
+    'rest_framework.authtoken',
+    # 'djoser'
 ]
+
+#configure DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+# # configure Djoser
+# DJOSER = {
+#     "USER_ID_FIELD": "username"
+# }
+
+
+
 
 AUTH_USER_MODEL = "users.CustomUser"
 
@@ -76,13 +100,18 @@ WSGI_APPLICATION = 'social_book.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        # 'ENGINE' : engine,
+        'NAME': 'mydb_1',
+        'USER' : 'Amishi_Agrawal',
+        'PASSWORD' : 'amishi777',
+        'HOST': 'database-1.c1ttqa9i87aq.ap-south-1.rds.amazonaws.com',
+        'PORT': '5432'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -122,7 +151,23 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]
+
+
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = 'media/'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'amiagrwal2002@gmail.com'
+EMAIL_HOST_PASSWORD = 'vtworbslvdveapai'

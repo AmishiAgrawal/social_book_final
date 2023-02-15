@@ -1,0 +1,9 @@
+{% for t in token%}
+{{t}}
+{%endfor%}
+
+<form method='post' action='/token_mid/'>
+    {% csrf_token %}
+    Enter your token here:<input type='text' name='user_token'>
+    <button type='submit'>Submit</button>
+</form>

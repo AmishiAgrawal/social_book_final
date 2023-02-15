@@ -14,6 +14,7 @@ from sqlalchemy.sql import text
 from django.conf import settings
 from django.core.mail import send_mail
 
+import requests
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -198,9 +199,70 @@ def df(request):
     # print(df)
     return HttpResponse(df)
 
+def api(request):
+    return render(request,'token_gen.html')
+
+
+def generate_token(request):
+    return render(request,'generate_token.html')
+
+def validate_token(request):
+    return render(request,'validate_token.html')
+
+
 
 class RegisterUser(APIView):
     def post(self,request):
+
+        email=request.POST.get('email')
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        cpassword=request.POST.get('cpassword')
+        fullname=request.POST.get('fullname')
+        gender=request.POST.get('gender')
+        # print(gender)
+        city=request.POST.get('city')
+        state=request.POST['state']
+        cctype=request.POST.get('cctype')
+        # print(cctype)
+        ccnumber=request.POST['ccnumber']
+        cvc=request.POST['cvc']
+        # cdate = datetime.datetime(int(request.POST.get('year')), int(request.POST.get('month')), 10)
+        # expdate = str(cdate.month) + ' - ' + str(cdate.year)
+        # print(expdate)
+        address = city + ', ' + state
+        if password != cpassword:
+            return HttpResponse('passwords do not match')
+        condition = request.POST.get('condition')
+        print(condition)
+        public_visibility = request.POST.get('public_visibility')
+        print(public_visibility)
+        # address = models.CharField(max_length=100,default="India")
+
+        # if condition == 'agreed':
+            # db = get_user_model()
+            # user=db.objects.create_user(email=email,username=username,password=password,fullname=fullname,gender=gender,city=city,state=state,cctype=cctype,ccnumber=ccnumber,cvc=cvc,expdate=expdate,address=address)
+            # # user=db.objects.create(email=email,username=username,password=password)
+            # print(user)
+            # user.set_password(password)
+            # user.save()
+            # messages.success(request,'sucessfully registered')
+
+
+            
+        #     subject = 'welcome to our website'
+        #     message = f'Hi {user.username}, thank you for registering.'
+        #     email_from = settings.EMAIL_HOST_USER
+        #     recipient_list = [user.email, ]
+        #     # send_mail( subject, message, email_from, recipient_list )
+            
+        #     # return render(request,'login.html')
+        # else:
+        #     messages.warning(request,'Please check the box to show you agree with the terms and conditions.')
+        #     return render(request,'register.html')
+
+
+
         serializer = UserSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -209,9 +271,14 @@ class RegisterUser(APIView):
         serializer.save()
 
         user = CustomUser.objects.get(username = serializer.data['username'])
+        print(user)
         token_obj = Token.objects.get_or_create(user=user)
-        return Response({'status':200,'payload' : serializer.data,'token':str(token_obj),'message':"Success"})
+        print(token_obj)
+        # return Response({'status':200,'payload' : serializer.data,'token':str(token_obj),'message':"Success"})
+        return render(request,'token.html',{'token':token_obj})
 
+    def get(self,request):
+        return render(request,'register.html')
 
 # @api_view(['GET'])    
 # def home(request):
@@ -219,7 +286,18 @@ class RegisterUser(APIView):
 #     serializer = BookSerializer(all_books,many=True)
 #     return Response({'status':200,'data': serializer.data})
 
+def token_mid(request):
+    if request.method == 'POST':
+        token = request.POST.get('user_token')
 
+        headers = {
+        "Authorization": "Token " + token
+        }
+
+        response = request.get('http://127.0.0.1:8000/book_api/', headers=headers)
+        print(response)
+        return response
+        # requests.get('http://127.0.0.1:8000/book_api/', headers=headers)
 
 class BookAPI(APIView):
     authentication_classes = [TokenAuthentication]

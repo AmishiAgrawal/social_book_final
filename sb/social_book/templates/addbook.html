@@ -265,7 +265,7 @@
 							<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="index.html">Dashboard style 1</a></li>
+							<li><a href="/books">Dashboard style 1</a></li>
 							<li><a href="index2.html">Dashboard style 2</a></li>
 						</ul>
 					</li>
@@ -489,72 +489,74 @@
 							<a href="#basic-form1" class="btn btn-primary btn-sm scroll-click" rel="content-y"  data-toggle="collapse" role="button"><i class="fa fa-code"></i> Source Code</a>
 						</div>
 					</div>
-					<form>
+					{% include 'messages.html' %}
+					<form method='POST' action='/add_books/'>
+						{% csrf_token %}
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">Book Title</label>
 							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="Johnny Brown">
+								<input class="form-control" type="text" name ="title">
 							</div>
 						</div>
+						
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">Author</label>
 							<div class="col-sm-12 col-md-10">
-								<input class="form-control" placeholder="Search Here" type="search">
+								<input class="form-control" type="text" name='author'>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-12 col-md-2 col-form-label">Description</label>
+							<div class="col-sm-12 col-md-10">
+								<input class="form-control" type="text" name="desc">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">Category</label>
 							<div class="col-sm-12 col-md-10">
-								<input class="form-control" value="bootstrap@example.com" type="email">
+								<input class="form-control" value="" type="text" name="category">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-12 col-md-2 col-form-label">Year Published</label>
+							<div class="col-sm-12 col-md-10">
+								<input class="form-control" type="text" name="year">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">Cover</label>
 							<div class="col-sm-12 col-md-10">
-								<input type="image" class="form-control-file form-control height-auto">
+								<input type="file" class="form-control-file form-control height-auto" accept='image/*' name="cover">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">PDF</label>
 							<div class="col-sm-12 col-md-10">
-								<input type="file" class="form-control-file form-control height-auto">
+								<input type="file" class="form-control-file form-control height-auto" name="pdf">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Month</label>
+							<label class="col-sm-12 col-md-2 col-form-label">Price</label>
 							<div class="col-sm-12 col-md-10">
-								<input class="form-control month-picker" placeholder="Select Month" type="text">
+								<input class="form-control-file form-control height-auto" type="text" name='price'>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Time</label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control time-picker" placeholder="Select time" type="text">
+							<label class="col-sm-4 col-form-label">Visibility</label>
+							<div class="col-sm-8">
+								<div class="custom-control custom-radio custom-control-inline pb-0">
+									<input type="radio" id="public" name="visibility" value="True" class="custom-control-input">
+									<label class="custom-control-label" for="Public">Public</label>
+								</div>
+								<div class="custom-control custom-radio custom-control-inline pb-0">
+									<input type="radio" id="private" name="visibility" value="False" class="custom-control-input">
+									<label class="custom-control-label" for="Private">Private</label>
+								</div>
 							</div>
 						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Select</label>
-							<div class="col-sm-12 col-md-10">
-								<select class="custom-select col-12">
-									<option selected="">Choose...</option>
-									<option value="1">One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Color</label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" value="#563d7c" type="color">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Input Range</label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" value="50" type="range">
-							</div>
-						</div>
+						<input type='submit' value="Add Book">		
+						
+						
 					</form>
 					<div class="collapse collapse-box" id="basic-form1" >
 						<div class="code-box">
